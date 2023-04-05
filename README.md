@@ -11,3 +11,7 @@ git commit -m "First Commit"
 git config --global user.name “[name]”
 
 git config --global user.email “[email address]”
+
+git remote add api https://github.com/Say-My-Name-Heisenberg/Rest-API.git
+
+ git remote -v
