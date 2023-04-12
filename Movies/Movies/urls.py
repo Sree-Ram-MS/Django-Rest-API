@@ -15,8 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from api.views import Movielist,Movie,Films,FilmItem,UserCreation
+from api.views import Movielist,Movie,Films,FilmItem,UserCreation,MovieAPI
 from Dishes.views import Dishlist
+
+from rest_framework.routers import DefaultRouter
+
+router=DefaultRouter()
+router.register('Movieapi',MovieAPI,basename='mapi')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,4 +33,4 @@ urlpatterns = [
     path('Film/<int:fid>',FilmItem.as_view()),
 
     path('Reg',UserCreation.as_view()),
-]
+]+router.urls

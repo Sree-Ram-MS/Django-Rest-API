@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from .models import movies,Movies
 from .serializer import Movieserializer,MovieModelSer,UserSerializer
 from rest_framework.response import Response
+from rest_framework.viewsets import ViewSet
 from rest_framework import status
 
 # Create your views here.
@@ -187,4 +188,46 @@ class UserCreation(APIView):
         else:
             return Response({"Message":"Registration Failed"},status=status.HTTP_422_UNPROCESSABLE_ENTITY)
         
+
+
+#Using Viewset Class
+
+class MovieAPI(ViewSet):
+    def list(self,req,*args,**kwargs):
+        mv=Movies.objects.all()
+        dser=MovieModelSer(mv,many=True)
+        return Response (data=dser.data)
+    def retrieve(self,req,*args,**kwargs):
+        id=kwargs.get("pk")
+        try:
+            mv=Movies.objects.get(id=id)
+            dser=MovieModelSer(mv)
+            return Response(data=dser.data)
+        except:
+            return Response({"Message":"Invalid ID"},status=status.HTTP_400_BAD_REQUEST)
         
+    def create(self,req,*args,**kwargs):
+        ser=MovieModelSer(data=req.data)
+        if ser.is_valid():
+            ser.save()
+            return Response({"Message":"Movies Added"})
+        else:
+            return Response({"Message":ser.errors},status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+        
+    def update(self,req,*args,**kwargs):
+        id=kwargs.get("pk")
+        mv=Movies.objects.get(id=id)
+        ser=MovieModelSer(data=req.data,instance=mv)
+        if ser.is_valid():
+            ser.save()
+            return Response({"Message":"Movies Updated"})
+        else: 
+            return Response({"Message":ser.errors},status=status.HTTP_422_UNPROCESSABLE_ENTITY)      
+        
+    def destroy(self,req,*args,**kwargs):
+        id=kwargs.get("pk")
+        try:
+            Movies.objects.filter(id=id).delete()
+            return Response({"msg":"Movie Deleted"})
+        except:
+            return Response({"Message":"Invalid ID"},status=status.HTTP_422_UNPROCESSABLE_ENTITY)
