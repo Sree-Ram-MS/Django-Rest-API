@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from .models import movies,Movies
 from .serializer import Movieserializer,MovieModelSer,UserSerializer
 from rest_framework.response import Response
-from rest_framework.viewsets import ViewSet
+from rest_framework.viewsets import ViewSet,ModelViewSet
 from rest_framework import status
 
 # Create your views here.
@@ -231,3 +231,9 @@ class MovieAPI(ViewSet):
             return Response({"msg":"Movie Deleted"})
         except:
             return Response({"Message":"Invalid ID"},status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+        
+    #  Using ModelViewset
+class MoviesApiMV(ModelViewSet):
+    serializer_class=MovieModelSer
+    queryset=Movies.objects.all()
+    model=Movies
