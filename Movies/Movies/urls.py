@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from api.views import Movielist,Movie,Films,FilmItem,UserCreation,MovieAPI,MoviesApiMV
-from Dishes.views import Dishlist
+from Dishes.views import Dishlist,Dish,Dishes,DishItem
 
 from rest_framework.routers import DefaultRouter
 
@@ -26,12 +26,16 @@ router.register('MVapi',MovieAPI,basename='mvapi')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     path('movies/',Movielist.as_view()),
-    path('dishes/',Dishlist.as_view()),
-    # path('dishes/<int:did>',Dish.as_view()),
     path('movies/<int:mid>',Movie.as_view()),
     path('Film',Films.as_view()),
     path('Film/<int:fid>',FilmItem.as_view()),
 
     path('Reg',UserCreation.as_view()),
+
+    path('Dish/',Dishes.as_view()),
+    path('Dish/<int:fid>',DishItem.as_view()),
+    path('dishes/',Dishlist.as_view()),
+    path('dishes/<int:mid>',Dish.as_view()),
 ]+router.urls
