@@ -20,9 +20,12 @@ from Dishes.views import Dishlist,Dish,Dishes,DishItem
 
 from rest_framework.routers import DefaultRouter
 
+from rest_framework.authtoken import views
+
+
 router=DefaultRouter()
 router.register('Movieapi',MovieAPI,basename='mapi')
-router.register('MVapi',MovieAPI,basename='mvapi')
+router.register('MVapi',MoviesApiMV,basename='mvapi')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -38,4 +41,7 @@ urlpatterns = [
     path('Dish/<int:fid>',DishItem.as_view()),
     path('dishes/',Dishlist.as_view()),
     path('dishes/<int:mid>',Dish.as_view()),
+
+
+    path('token-auth/', views.obtain_auth_token)
 ]+router.urls

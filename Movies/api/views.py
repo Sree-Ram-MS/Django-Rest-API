@@ -4,7 +4,7 @@ from .models import movies,Movies
 from .serializer import Movieserializer,MovieModelSer,UserSerializer
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet,ModelViewSet
-from rest_framework import status
+from rest_framework import status,permissions,authentication
 
 # Create your views here.
 class Movielist(APIView):
@@ -42,46 +42,6 @@ class Movie(APIView):
         movie=[i for  i in movies if i ['id']==id].pop()
         movies.remove(movie)
         return Response(data=movies)
-    
-
-# # Dishes
-# class Movielist(APIView):
-#     def get(self,req,*args,**kwargs):
-#         allmovies=movies
-#         if "Genre" in req.query_params:
-#             qp=req.query_params.get('Genre')
-#             allmovies=[i for  i in allmovies if i ['Genre']==qp]
-#         if "yearlt" in req.query_params:
-#             qp=req.query_params.get('yearlt')
-#             allmovies=[i for  i in allmovies if i ['yearlt']<int(qp)]
-#         return Response(data=allmovies)
-        
-#     def post(self,req,*args,**kwargs):
-#         data=req.data
-#         movies.append(data)
-#         return Response(data=movies)
-
-
-# class Movie(APIView):
-#     def get(self,req,*args,**kwargs):
-#         id= kwargs.get("mid")
-#         film=[i for  i in movies if i ['id']==id].pop()
-#         return Response(data=film)
-
-#     def put(self,req,*args,**kwargs):
-#         id= kwargs.get("mid")
-#         data=req.data
-#         movie=[i for  i in movies if i ['id']==id].pop()
-#         movies.update(data)
-#         return Response(data=movies)
-    
-#     def delete(self,req,*args,**kwargs):
-#         id= kwargs.get("mid")
-#         movie=[i for  i in movies if i ['id']==id].pop()
-#         movies.remove(movie)
-#         return Response(data=movies)
-
-
 
 class Movielist(APIView):
     def get(self,req,*args,**kwargs):
@@ -187,8 +147,6 @@ class UserCreation(APIView):
             return Response({"Message":"Registratin Completed"})
         else:
             return Response({"Message":"Registration Failed"},status=status.HTTP_422_UNPROCESSABLE_ENTITY)
-        
-
 
 #Using Viewset Class
 
@@ -232,8 +190,10 @@ class MovieAPI(ViewSet):
         except:
             return Response({"Message":"Invalid ID"},status=status.HTTP_422_UNPROCESSABLE_ENTITY)
         
-    #  Using ModelViewset
+#  Using ModelViewset
 class MoviesApiMV(ModelViewSet):
     serializer_class=MovieModelSer
     queryset=Movies.objects.all()
     model=Movies
+    permission_classes=[permissions.IsAuthenticated]
+    authentication_classes=[authentication.TokenAuthentication]
