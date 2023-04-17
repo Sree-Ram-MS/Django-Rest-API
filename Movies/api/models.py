@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 movies=[
@@ -14,3 +15,11 @@ class Movies(models.Model):
     year=models.IntegerField()
     Director=models.CharField(max_length=100)
     Genre=models.CharField(max_length=100)
+    img=models.ImageField(upload_to="Film Poster",null=True)
+
+class Review(models.Model):
+    review=models.CharField(max_length=500)
+    rating=models.FloatField()
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    movie=models.ForeignKey(Movies,on_delete=models.CASCADE)
+    date=models.DateField(auto_now_add=True)

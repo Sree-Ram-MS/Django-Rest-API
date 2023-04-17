@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Movies
+from .models import Movies,Review
 from django.contrib.auth.models import User
 
 
@@ -21,3 +21,14 @@ class UserSerializer(serializers.ModelSerializer):
         fields=["username","password","email"]
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
+    
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Review
+        fields=["review","rating"]
+    
+    def create(self, validated_data):
+        user=self.context.get("user")
+        mv=self.context.get("movie")
+        return Review.objects.create(**validated_data,user=user,movie=mv)

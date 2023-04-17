@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from .models import movies,Movies
-from .serializer import Movieserializer,MovieModelSer,UserSerializer
+from .serializer import Movieserializer,MovieModelSer,UserSerializer,ReviewSerializer
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet,ModelViewSet
 from rest_framework import status,permissions,authentication
+from rest_framework.decorators import action
+
 
 # Create your views here.
 class Movielist(APIView):
@@ -197,3 +199,15 @@ class MoviesApiMV(ModelViewSet):
     model=Movies
     permission_classes=[permissions.IsAuthenticated]
     authentication_classes=[authentication.TokenAuthentication]
+
+    @action(detail=True,methods=["post"])
+    def add_reviews(self,req,*args,**kwargs):
+        id =kwargs.get("pk")
+        mv=Movies.objects.get(id=id)
+        user=req.user
+        ser=ReviewSerializer(data=req.data,context={"user":user,"movie":mv})
+        if ser.is_valid():
+            ser.save()
+            return Response ({"msg":"Added"})
+        else:
+            return Response({"MSG":ser.erros},status=status.HTTP_100_CONTINUE)
