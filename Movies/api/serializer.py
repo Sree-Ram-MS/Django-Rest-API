@@ -22,8 +22,21 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
     
+class UserRevSer(serializers.ModelSerializer):
+    class Meta:
+        model=User
+        fields=["first_name","last_name"]
+
+class MovieSer(serializers.ModelSerializer):
+    class Meta:
+        model=Movies
+        fields=["name","year"]
+
+   
 
 class ReviewSerializer(serializers.ModelSerializer):
+    movie=MovieSer(read_only=True)
+    user=UserRevSer(read_only=True)
     class Meta:
         model=Review
         fields=["review","rating"]

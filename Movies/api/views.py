@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
-from .models import movies,Movies
+from .models import movies,Movies,Review
 from .serializer import Movieserializer,MovieModelSer,UserSerializer,ReviewSerializer
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet,ModelViewSet
@@ -211,3 +211,15 @@ class MoviesApiMV(ModelViewSet):
             return Response ({"msg":"Added"})
         else:
             return Response({"MSG":ser.erros},status=status.HTTP_100_CONTINUE)
+        
+    @action(detail=True,methods=["get"])   
+    def get_reviews(self,req,*args,**kwargs):
+        id=kwargs.get("pk")
+        try:
+            mv=Movies.objects.get(id=id)
+            rv=Review.objects.filter(movie=mv)
+            dser=ReviewSerializer(rv,many=True)
+            return Response(data=dser.data)
+        except:
+            return Response({"Message":"Invalid ID"},status=status.HTTP_400_BAD_REQUEST)
+        
