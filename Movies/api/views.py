@@ -198,7 +198,7 @@ class MoviesApiMV(ModelViewSet):
     queryset=Movies.objects.all()
     model=Movies
     permission_classes=[permissions.IsAuthenticated]
-    authentication_classes=[authentication.TokenAuthentication]
+    # authentication_classes=[authentication.TokenAuthentication]
 
     @action(detail=True,methods=["post"])
     def add_reviews(self,req,*args,**kwargs):
