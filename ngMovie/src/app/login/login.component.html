@@ -5,15 +5,21 @@
 <div class="row">
     <div class="col"></div>
     <div class="col">
-        <form action="">
+        <form [formGroup]="logform" (ngSubmit)="clicked()">
             <div>
-                <input type="text" name="" placeholder="Enter Your Username" id="" class="form-control mt-3">
+                <input type="text" name="" formControlName="username" placeholder="Enter Your Username" id="" class="form-control mt-3">
+                <div class="alert alert-danger" *ngIf="logform.get('username')?.invalid && logform.get('username')?.touched">
+                        UserName is incorrect
+                </div>
             </div>
             <div>
-                <input type="password" name="" placeholder="Enter Your Password" id="" class="form-control mt-3">
+                <input type="password" name="" formControlName="password" placeholder="Enter Your Password" id="" class="form-control mt-3">
+                <div class="alert alert-danger" *ngIf="logform.get('password')?.invalid && logform.get('password')?.touched">
+                    Password is incorrect
+            </div>
             </div>
             <div class="text-center">
-                <button class="btn btn-success mt-5">Login</button>
+                <button class="btn btn-success mt-5" [disabled]="logform.invalid">Login</button>
             </div>
         </form>
 
