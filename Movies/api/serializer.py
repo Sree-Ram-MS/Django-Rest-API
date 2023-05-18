@@ -39,7 +39,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     user=UserRevSer(read_only=True)
     class Meta:
         model=Review
-        fields=["review","rating","movie","user"]
+        fields=["review","rating","date","movie","user"]
     
     def create(self, validated_data):
         user=self.context.get("user")

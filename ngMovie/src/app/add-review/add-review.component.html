@@ -1,0 +1,20 @@
+<h3 class="bg-info text-light text-center">Add Review</h3>
+
+<div class="row">
+    <div class="col"></div>
+    <div class="col">
+        <form action="" [formGroup]="revForm" (ngSubmit)="comment()">
+
+            <div class="mb-5">
+                <textarea name="" formControlName="review" id="" cols="30" rows="10" placeholder="Comment Your Review"></textarea>
+            </div>
+            <div>
+                <input type="number" formControlName="rating" name="" id="" placeholder="Add Your Rating">
+            </div>
+            <div class="text-center">
+                <button class="btn btn-success" >Submit</button>
+            </div>
+        </form>
+    </div>
+    <div class="col"></div>
+</div>

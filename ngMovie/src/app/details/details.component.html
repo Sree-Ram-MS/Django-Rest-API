@@ -1,0 +1,26 @@
+<h1 class="bg-success text-light text-center">Movies</h1>
+<div class="row bg-info" style="justify-content: center;">
+    <div class="card col-4 bg-warning" style="width:fit-content; height:fit-content" >
+        <img class="card-img-top" src="{{film.img}}" alt="Card image cap" style="height: 700px;width: max-content;">
+        <div class="card-body">
+          <h5 class="card-title">Movie: {{film.name}}</h5>
+          <p class="card-text"> Genre: {{film.Genre}}</p>
+          <p class="card-text"> Director: {{film.Director}}</p>
+          <p class="card-text">Release Date: {{film.year}}</p>
+          <p class="card-text display-3">Reviews</p>
+        </div>
+
+<div class="card-footer">
+    <div style="border:1px;" *ngFor="let i of rev">
+        <h6 >Date:{{i.date}} </h6>
+        <h2 >{{i.user.username}}: {{i.review}}</h2>
+        <h5>Rating:{{i.rating}}</h5>
+    
+    </div>
+</div>
+
+
+
+
+      </div>
+</div>

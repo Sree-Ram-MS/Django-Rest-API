@@ -1,11 +1,13 @@
 <h1 class="bg-success text-light text-center">Movies</h1>
-<div class="row">
+<a class="btn btn-danger" style="justify-content:flex-end;" (click)="logout()">Logout</a>
+<div class="row bg-info">
     <div class="card col-4" style="width:fit-content; height:fit-content" *ngFor="let i of movies">
         <img class="card-img-top" src="{{i.img}}" alt="Card image cap" style="height: 700px;">
         <div class="card-body">
           <h5 class="card-title">{{i.name}}</h5>
           <p class="card-text"> {{i.Genre}}</p>
-          <a href="#" class="btn btn-primary">More Details</a>
+          <a  class="btn btn-dark" id="{{i.id}}" (click)='details($event)'>More Details</a>
+          <a  class="btn btn-secondary" id="{{i.id}}" (click)='addrev($event)'>Add Review</a>
         </div>
       </div>
 </div>
